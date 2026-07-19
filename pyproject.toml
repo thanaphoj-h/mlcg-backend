@@ -6,6 +6,34 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.139.2",
+    "pydantic-settings>=2.14.2",
     "reportlab>=5.0.0",
     "uvicorn>=0.51.0",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.15.22",
+    "taskipy>=1.14.1",
+]
+
+[tool.taskipy.tasks]
+start = "python run.py"
+lint = "ruff check ."
+format = "ruff format ."
+check = "ruff check . && ruff format --check ."
+fix = "ruff check . --fix && ruff format ."
+test = "pytest"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+# E: Style, F: Logic, I: Import sorting, UP: Python upgrades, B: Bug detection
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.format]
+quote-style= "double"
+
