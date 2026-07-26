@@ -1,10 +1,9 @@
 # app/api/routes/health.py
 
-from datetime import UTC, datetime
-
 from fastapi import APIRouter, status
 
 from app.core.config import settings
+from app.utils.datetime_utils import iso_datetime
 
 router = APIRouter(tags=["Health"])
 
@@ -13,6 +12,6 @@ router = APIRouter(tags=["Health"])
 async def health():
     return {
         "status": "ok",
-        "timestamp": datetime.now(UTC).isoformat(),
+        "timestamp": iso_datetime,
         "service": settings.app_name,
     }
