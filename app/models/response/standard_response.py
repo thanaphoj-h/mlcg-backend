@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.models.response.error_response import ErrorResponse
 from app.models.response.metadata_response import MetadataResponse
@@ -11,4 +11,4 @@ from app.models.response.metadata_response import MetadataResponse
 class StandardResponse(BaseModel):
     data: Any | None = None
     error: list[ErrorResponse] | None = None
-    metadata: MetadataResponse
+    metadata: MetadataResponse = Field(default_factory=MetadataResponse)

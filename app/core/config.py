@@ -8,6 +8,7 @@ class Settings(BaseSettings):
 
     api_port: int = 8000
     api_host: str = "0.0.0.0"
+    api_key: str
 
     timezone: str = "UTC"
 
