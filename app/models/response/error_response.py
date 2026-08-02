@@ -1,4 +1,4 @@
-# app/models/responses/error_response.py
+# app/models/response/error_response.py
 
 from pydantic import BaseModel
 
