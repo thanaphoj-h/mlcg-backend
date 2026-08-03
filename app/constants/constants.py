@@ -2,6 +2,9 @@
 
 from typing import Final
 
+# Common Constant
+UTF_8_ENCODING = "utf-8"
+
 # Middleware Constant
 API_KEY_HEADER: Final[str] = "x-api-key"
 INVALID_API_KEY_MSG: Final[str] = "Invalid or missing x-api-key header"

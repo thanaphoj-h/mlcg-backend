@@ -11,7 +11,7 @@ from app.core.config import settings
 from app.utils.response_utils import create_http_error_response
 
 
-class APIKeyMiddleWare(BaseHTTPMiddleware):
+class APIKeyMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
 
         if not request.url.path.startswith(API_V1_PATH):

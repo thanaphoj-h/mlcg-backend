@@ -8,6 +8,7 @@ from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoin
 
 from app.constants.constants import API_V1_PATH, INVALID_REQUEST_UUID_MSG, MISSING_REQUEST_UUID_MSG, REQUEST_UUID_HEADER
 from app.utils.response_utils import create_http_error_response
+from app.core.logging.context import set_request_uuid, reset_request_uuid
 
 
 class RequestUUIDMiddleware(BaseHTTPMiddleware):
@@ -37,9 +38,17 @@ class RequestUUIDMiddleware(BaseHTTPMiddleware):
         # Store the request UUID for use during the current request.
         request.state.request_uuid = normalized_uuid
 
-        # Continue processing the request.
-        response = await call_next(request)
-        # Include the request UUID in the response headers.
-        response.headers[REQUEST_UUID_HEADER] = normalized_uuid
+        # Set the request UUID context
+        token = set_request_uuid(normalized_uuid)
 
-        return response
+        try:
+
+            # Continue processing the request.
+            response = await call_next(request)
+            # Include the request UUID in the response headers.
+            response.headers[REQUEST_UUID_HEADER] = normalized_uuid
+
+            return response
+        finally:
+            # Restore the previous request UUID context
+            reset_request_uuid(token)

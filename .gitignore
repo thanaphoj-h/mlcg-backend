@@ -12,3 +12,8 @@ wheels/
 # IDE
 .idea/
 .vscode/
+
+# Logs
+logs/
+*.log
+*.log.*

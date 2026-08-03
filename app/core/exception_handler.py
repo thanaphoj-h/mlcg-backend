@@ -6,12 +6,19 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.utils.response_utils import create_http_error_response
+from app.constants.logging_constants import HTTP_EXCEPTION_LOG_FORMAT
+from app.core.logging.application import get_logger
+
+logger = get_logger(__name__)
 
 
 # HTTP_401_UNAUTHORIZED
 # HTTP_404_NOT_FOUND
 # HTTP_405_METHOD_NOT_ALLOWED
-async def http_exception_handler(_request: Request, exception: StarletteHTTPException) -> JSONResponse:
+async def http_exception_handler(request: Request, exception: StarletteHTTPException) -> JSONResponse:
+
+    logger.error(HTTP_EXCEPTION_LOG_FORMAT, request.method, request.url.path,
+                 exception.status_code, exception.detail)
 
     return create_http_error_response(
         status_code=exception.status_code, message=str(exception.detail), headers=exception.headers
